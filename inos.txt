@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<conio.h>
+struct file
+{
+ char fname[10];
+ int start,size,block[10];
+}f[10];
+int main()
+{
+ int i,j,n;
+ printf("Enter no. of files:");
+ scanf("%d",&n);
+ for(i=0;i<n;i++)
+ {
+ printf("Enter file name:");
+ scanf("%s",f[i].fname);
+ printf("Enter starting block:");
+ scanf("%d",&f[i].start);
+ f[i].block[0]=f[i].start;
+ printf("Enter no.of blocks:");
+ scanf("%d",&f[i].size);
+ printf("Enter block numbers:");
+ for(j=1;j<=f[i].size;j++)
+ {
+ scanf("%d",&f[i].block[j]);
+ }
+ }
+ printf("File\tstart\tsize\tblock\n"); 
+ for(i=0;i<n;i++)
+ {
+ printf("%s\t%d\t%d\t",f[i].fname,f[i].start,f[i].size);
+ for(j=1;j<=f[i].size-1;j++)
+ printf("%d--->",f[i].block[j]);
+ printf("%d",f[i].block[j]);
+ printf("\n");
+ }
+ getch();
+} 
+
+
+
+
+
+
+
+
+#include<stdio.h>
+#include<conio.h>
+#define max 25
+
+void main()
+{
+ int frag[max],b[max],f[max],i,j,nb,nf,temp,highest=0;
+ static int bf[max],ff[max];
+ printf("\nEnter the number of blocks:");
+ scanf("%d",&nb);
+ printf("Enter the number of files:");
+ scanf("%d",&nf);
+ printf("\nEnter the size of the blocks:-\n");
+ for(i=1;i<=nb;i++)
+ {
+     printf("Block %d:",i);
+ scanf("%d",&b[i]);}
+ printf("Enter the size of the files :-\n");
+ for(i=1;i<=nf;i++)
+ {
+     printf("File %d:",i);
+    scanf("%d",&f[i]);
+ }
+ for(i=1;i<=nf;i++)
+ {
+      for(j=1;j<=nb;j++)
+      {
+           if(bf[j]!=1)    //if bf[j] is not allocated
+           {
+                temp=b[j]-f[i];
+                if(temp>=0)
+                    if(highest<temp)
+                    {
+                         ff[i]=j;
+                         highest=temp;
+                    }
+            }
+      }
+      frag[i]=highest;
+      bf[ff[i]]=1;
+      highest=0;
+ }
+ printf("\nFile_no:\tFile_size :\tBlock_no:\tBlock_size:\tFragement");
+ for(i=1;i<=nf;i++)
+    printf("\n%d\t\t%d\t\t%d\t\t%d\t\t%d",i,f[i],ff[i],b[ff[i]],frag[i]);
+}
